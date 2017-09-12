@@ -1,5 +1,6 @@
 package com.bridgelabz.utility;
 
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Utility {
@@ -20,4 +21,14 @@ public class Utility {
 		System.out.println(template);
 	}
 
+	public static void sortCardsAndStore() {
+		DeckOfCards player=new DeckOfCards();
+		QueueLinkedList<String> queue=new QueueLinkedList<String>(); 
+		for(int i=0;i<player.size();i++) {
+			queue.enqueue(player.deckOfCards[i]);
+		}
+		Collections.sort(queue.queue);
+		queue.print();
+		
+	}
 }
