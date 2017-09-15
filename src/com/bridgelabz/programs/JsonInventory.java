@@ -33,7 +33,7 @@ public class JsonInventory {
 		int response=scanner.nextInt();
 		if(response==1) {
 			System.out.println("Enter file name to create with absolute address:");
-			String fileName=scanner.nextLine();
+			String fileName=scanner.next();
 			FileWriter fileWriter=new FileWriter(fileName);
 			JSONObject inventory=Utility.jasonInventory();
 			fileWriter.write(inventory.toJSONString());

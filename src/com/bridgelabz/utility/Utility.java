@@ -8,7 +8,6 @@
 
 package com.bridgelabz.utility;
 
-import java.util.Collections;
 import java.util.Scanner;
 
 import org.json.simple.JSONArray;
@@ -32,15 +31,37 @@ public class Utility {
 		System.out.println(template);
 	}
 
-	public static void sortCardsAndStore() {
-		DeckOfCards player=new DeckOfCards();
-		QueueLinkedList<String> queue=new QueueLinkedList<String>(); 
-		for(int i=0;i<player.size();i++) {
-			queue.enqueue(player.deckOfCards[i]);
+	public static void deckOfCardSort(DeckOfCards[] playerCards,QueueLinkedList<QueueLinkedList<DeckOfCards>> player,String[] arrayOfRanks,int playerNo) {
+		DeckOfCards[] copyOfPlayerCards=playerCards;
+		int untilThis=copyOfPlayerCards.length;
+		int decreaseTheArraySize=0;
+		System.out.println("Player "+playerNo);
+		System.out.println();
+		for(int lookAtRank=0;lookAtRank<arrayOfRanks.length;lookAtRank++) {	//we enter in queue all those cards which matches each rank accordingly 
+			for(int checkPlayerCard=0;checkPlayerCard<untilThis-decreaseTheArraySize;checkPlayerCard++) {
+				if(copyOfPlayerCards[checkPlayerCard].ranks.equals(arrayOfRanks[lookAtRank])) {
+					System.out.println("decreaseTheArraySize "+decreaseTheArraySize);
+					System.out.println("lookAtRank "+lookAtRank);
+					System.out.println("checkPlayerCard "+checkPlayerCard);
+					System.out.println("copyOfPlayerCards[checkPlayerCard].ranks "+copyOfPlayerCards[checkPlayerCard].ranks);
+					System.out.println("arrayOfRanks[lookAtRank] "+arrayOfRanks[lookAtRank]);
+					player.get(playerNo).enqueue(copyOfPlayerCards[checkPlayerCard]);
+					swap(copyOfPlayerCards,checkPlayerCard,decreaseTheArraySize);	//this swapping is done to decrease the number of checking  
+					decreaseTheArraySize++;									//in that array for next element ,if element is found
+					for(int eachPlayerCard=0;eachPlayerCard<9;eachPlayerCard++) 
+						System.out.print(copyOfPlayerCards[eachPlayerCard].suits+" "+copyOfPlayerCards[eachPlayerCard].ranks+"   ");
+					System.out.println();
+					System.out.println();
+				}
+			}
 		}
-		Collections.sort(queue.queue);
-		queue.print();
-		
+	}
+	
+	public static void swap(DeckOfCards[] playerCards,int index,int decreaseTheArraySize) {	//swapping any element with last element
+		System.out.println("swap "+playerCards[index].ranks+" "+playerCards[(playerCards.length-decreaseTheArraySize)-1].ranks);
+		DeckOfCards temporary=playerCards[index];
+		playerCards[index]=playerCards[(playerCards.length-decreaseTheArraySize)-1];
+		playerCards[(playerCards.length-decreaseTheArraySize)-1]=temporary;
 	}
 	
 	@SuppressWarnings("unchecked")
