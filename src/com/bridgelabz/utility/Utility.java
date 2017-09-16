@@ -15,13 +15,17 @@ import org.json.simple.JSONObject;
 
 public class Utility {
 	
+	public static Scanner scanner=new Scanner(System.in);
+	
 	public static void regularExpression(String template) {
-		@SuppressWarnings("resource")
-		Scanner input=new Scanner(System.in);
-		String name=input.nextLine();
-		String fullname=input.nextLine();
-		String phonenumber=input.next();
-		String date=input.next();
+		System.out.println("Enter Receivers Name:");
+		String name=scanner.nextLine();
+		System.out.println("Enter the Full name Of Receiver");
+		String fullname=scanner.nextLine();
+		System.out.println("Enter the Phone number(don't write +91):");
+		String phonenumber=scanner.next();
+		System.out.println("Enter the Todays date(dd/mm/yy)");
+		String date=scanner.next();
 		
 		template=template.replaceAll("<<name>>", name);
 		template=template.replaceAll("<<full\\sname>>", fullname);
@@ -32,36 +36,43 @@ public class Utility {
 	}
 
 	public static void deckOfCardSort(DeckOfCards[] playerCards,QueueLinkedList<QueueLinkedList<DeckOfCards>> player,String[] arrayOfRanks,int playerNo) {
-		DeckOfCards[] copyOfPlayerCards=playerCards;
-		int untilThis=copyOfPlayerCards.length;
+		int untilThis=playerCards.length;
 		int decreaseTheArraySize=0;
-		System.out.println("Player "+playerNo);
-		System.out.println();
 		for(int lookAtRank=0;lookAtRank<arrayOfRanks.length;lookAtRank++) {	//we enter in queue all those cards which matches each rank accordingly 
 			for(int checkPlayerCard=0;checkPlayerCard<untilThis-decreaseTheArraySize;checkPlayerCard++) {
-				if(copyOfPlayerCards[checkPlayerCard].ranks.equals(arrayOfRanks[lookAtRank])) {
-					System.out.println("decreaseTheArraySize "+decreaseTheArraySize);
-					System.out.println("lookAtRank "+lookAtRank);
-					System.out.println("checkPlayerCard "+checkPlayerCard);
-					System.out.println("copyOfPlayerCards[checkPlayerCard].ranks "+copyOfPlayerCards[checkPlayerCard].ranks);
-					System.out.println("arrayOfRanks[lookAtRank] "+arrayOfRanks[lookAtRank]);
-					player.get(playerNo).enqueue(copyOfPlayerCards[checkPlayerCard]);
-					swap(copyOfPlayerCards,checkPlayerCard,decreaseTheArraySize);	//this swapping is done to decrease the number of checking  
-					decreaseTheArraySize++;									//in that array for next element ,if element is found
-					for(int eachPlayerCard=0;eachPlayerCard<9;eachPlayerCard++) 
-						System.out.print(copyOfPlayerCards[eachPlayerCard].suits+" "+copyOfPlayerCards[eachPlayerCard].ranks+"   ");
-					System.out.println();
-					System.out.println();
+				if(playerCards[checkPlayerCard].ranks.equals(arrayOfRanks[lookAtRank])) {//player.get(playerNo).enqueue(copyOfPlayerCards[checkPlayerCard]);
+					swap(playerCards,checkPlayerCard,decreaseTheArraySize);	//this swapping is done to decrease the number of checking 
+					decreaseTheArraySize++;											//in that array for next element ,if element is found
 				}
 			}
+		}
+		for(int thisElement=playerCards.length-1;thisElement>=0;thisElement--) { //sorted array inserted to queue
+			player.get(playerNo).enqueue(playerCards[thisElement]);;
 		}
 	}
 	
 	public static void swap(DeckOfCards[] playerCards,int index,int decreaseTheArraySize) {	//swapping any element with last element
-		System.out.println("swap "+playerCards[index].ranks+" "+playerCards[(playerCards.length-decreaseTheArraySize)-1].ranks);
-		DeckOfCards temporary=playerCards[index];
-		playerCards[index]=playerCards[(playerCards.length-decreaseTheArraySize)-1];
-		playerCards[(playerCards.length-decreaseTheArraySize)-1]=temporary;
+		int whereToSeeInArray=(playerCards.length-decreaseTheArraySize)-1;
+		if(playerCards[index].ranks.equals(playerCards[whereToSeeInArray].ranks)&&index!=whereToSeeInArray) {	//if swapping last index is same as this swapping element than 
+			whereToSeeInArray=lookForNextNonSimilarRank(playerCards,index,whereToSeeInArray);
+			DeckOfCards temporary=playerCards[index];													//swap with second last element
+			playerCards[index]=playerCards[whereToSeeInArray];
+			playerCards[whereToSeeInArray]=temporary;
+		}
+		else {
+			DeckOfCards temporary=playerCards[index];
+			playerCards[index]=playerCards[whereToSeeInArray];
+			playerCards[whereToSeeInArray]=temporary;
+		}	
+	}
+	
+	public static int lookForNextNonSimilarRank(DeckOfCards[] playerCards,int index,int whereToSeeInArray) {
+		int checkingFrom;
+		for(checkingFrom=index+1;checkingFrom<whereToSeeInArray;checkingFrom++) {
+			if(!playerCards[index].ranks.equals(playerCards[checkingFrom].ranks)&&playerCards[checkingFrom+1].ranks.equals(playerCards[index].ranks))
+				return checkingFrom;
+		}
+		return checkingFrom;
 	}
 	
 	@SuppressWarnings("unchecked")
