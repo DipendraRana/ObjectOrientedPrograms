@@ -17,14 +17,14 @@ package com.bridgelabz.programs;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StockAccount {
 	
 	public static Scanner scanner=new Scanner(System.in);
 	
-	protected String path="/home/bridgeit/Documents/<<accountName>>";
+	protected String path="C:\\Users\\DIPENDRA\\Documents\\<<accountName>>.txt";
 	
 	protected String accountName;
 	
@@ -32,7 +32,9 @@ public class StockAccount {
 	
 	protected int noOfShares;
 	
-	protected int[] priceOfEachShares;
+	protected ArrayList<Integer> priceOfEachShares;
+		
+	protected String stockSymbol;
 	
 	public StockAccount() throws IOException {
 		accountName=null;
@@ -42,20 +44,40 @@ public class StockAccount {
 	}
 	
 	public StockAccount(String fileName) throws FileNotFoundException {
-		StockReport stock=new StockReport();
 		path=path.replaceAll("<<accountName>>", fileName);
-		@SuppressWarnings("resource")
 		Scanner read=new Scanner(new File(path));
-		int incriment=0;
-		while(read.hasNext()) {
-			if(read.hasNext(stock.getStockName()))
-				stockName=read.nextLine();
-			else {
-			priceOfEachShares[incriment]=read.nextInt();
-			incriment++;
+		while(read.hasNext()){
+			String element=read.next();
+			try{
+				priceOfEachShares.add(Integer.parseInt(element));
+			}catch(NumberFormatException e){
+				stockName=element;
 			}
 		}
-		System.out.println(Arrays.toString(priceOfEachShares));
+		read.close();
+	}
+	
+	public int valueOf(){
+		int sum=0;
+		for(int iteration=0;iteration<priceOfEachShares.size();iteration++) {
+			sum=sum+priceOfEachShares.get(iteration);
+		}
+		return sum;
+	} 
+	
+	public void buy(int amount,String symbol){
+		
+	}
+	
+	public int getNoOfShares(String path) throws FileNotFoundException{
+		Scanner newReader=new Scanner(new File(path));
+		int noOfWords=0;
+		while(newReader.hasNextLine()){
+			noOfWords++;
+			newReader.nextLine();
+		}
+		newReader.close();
+		return noOfWords-1;
 	}
 	
 	public void createAccount() throws IOException {
@@ -71,6 +93,7 @@ public class StockAccount {
 		// TODO Auto-generated method stub
 		String fileName=scanner.nextLine();
 		StockAccount stock=new StockAccount(fileName);
+		stock.valueOf();
 		//stock.createAccount();
 		
 	}

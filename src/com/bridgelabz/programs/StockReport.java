@@ -83,6 +83,10 @@ public class StockReport {
 		return priceOfEachShares;
 	}
 	
+	public int getNoOfShares(){
+		return noOfShares;
+	}
+	
 	public void writeToFile(String fileName) throws IOException {
 		FileWriter write=new FileWriter(fileName);
 		write.write(stockName);
