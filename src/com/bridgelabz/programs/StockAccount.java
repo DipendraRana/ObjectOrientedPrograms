@@ -19,8 +19,11 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.Date;
 import java.util.LinkedList;
+=======
+>>>>>>> 80813ef3db81e8debcc55be5b968f5d6e9e682b3
 import java.util.Scanner;
 
 import com.bridgelabz.utility.CompanyShares;
@@ -31,7 +34,7 @@ public class StockAccount {
 	
 	public static Scanner scanner=new Scanner(System.in);
 	
-	protected String path="/home/bridgeit/Documents/<<accountName>>";
+	protected String path="C:\\Users\\DIPENDRA\\Documents\\<<accountName>>.txt";
 	
 	protected String accountName;
 	
@@ -40,6 +43,7 @@ public class StockAccount {
 	protected int noOfShares;
 	
 	protected ArrayList<Integer> priceOfEachShares;
+<<<<<<< HEAD
 	
 	protected String stockSymbol;
 	
@@ -48,6 +52,10 @@ public class StockAccount {
 	protected StackLinkedList<String> stack;
 	
 	protected QueueLinkedList<Date> queue;  
+=======
+		
+	protected String stockSymbol;
+>>>>>>> 80813ef3db81e8debcc55be5b968f5d6e9e682b3
 	
 	protected Date stockSellDate,stockBuyDate;
 	
@@ -62,16 +70,22 @@ public class StockAccount {
 	}
 	
 	public StockAccount(String fileName) throws FileNotFoundException {
+<<<<<<< HEAD
 		priceOfEachShares=new ArrayList<Integer>();
 		path=path.replaceAll("<<accountName>>", fileName);
 		Scanner read=new Scanner(new File(path));
 		int incriment=0;
 		String[] details = new String[2];
+=======
+		path=path.replaceAll("<<accountName>>", fileName);
+		Scanner read=new Scanner(new File(path));
+>>>>>>> 80813ef3db81e8debcc55be5b968f5d6e9e682b3
 		while(read.hasNext()){
 			String element=read.next();
 			try{
 				priceOfEachShares.add(Integer.parseInt(element));
 			}catch(NumberFormatException e){
+<<<<<<< HEAD
 				details[incriment]=element;
 				incriment++;
 			}
@@ -104,10 +118,40 @@ public class StockAccount {
 				}	
 				else
 					System.out.println("This company right now have no share");
+=======
+				stockName=element;
+>>>>>>> 80813ef3db81e8debcc55be5b968f5d6e9e682b3
 			}
 			else
 				System.out.println("No Stock with this symbol is present ");
 		}
+<<<<<<< HEAD
+=======
+		read.close();
+	}
+	
+	public int valueOf(){
+		int sum=0;
+		for(int iteration=0;iteration<priceOfEachShares.size();iteration++) {
+			sum=sum+priceOfEachShares.get(iteration);
+		}
+		return sum;
+	} 
+	
+	public void buy(int amount,String symbol){
+		
+	}
+	
+	public int getNoOfShares(String path) throws FileNotFoundException{
+		Scanner newReader=new Scanner(new File(path));
+		int noOfWords=0;
+		while(newReader.hasNextLine()){
+			noOfWords++;
+			newReader.nextLine();
+		}
+		newReader.close();
+		return noOfWords-1;
+>>>>>>> 80813ef3db81e8debcc55be5b968f5d6e9e682b3
 	}
 	
 	public void sell(int amount,String symbol,String fileName) throws IOException {
@@ -189,6 +233,7 @@ public class StockAccount {
 	
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
 		int amount;
 		String symbol;
 		String choose;
@@ -271,6 +316,12 @@ public class StockAccount {
 			choose=scanner.next();
 			choose=choose.toLowerCase();
 		}while(choose.equals("yes"));
+=======
+		String fileName=scanner.nextLine();
+		StockAccount stock=new StockAccount(fileName);
+		stock.valueOf();
+		//stock.createAccount();
+>>>>>>> 80813ef3db81e8debcc55be5b968f5d6e9e682b3
 		
 
 	}
