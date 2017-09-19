@@ -1,14 +1,20 @@
 /***************************************************************************************************
- * purpose : StockAccount.java implements a data type that might be used by a financial institution
+ * purpose : 1.StockAccount.java implements a data type that might be used by a financial institution
  * 			 to keep track of customer information. The StockAccount class implements following
  * 			 methods.
  *			 The StockAccount class also maintains a list of CompanyShares object which has Stock
  *			 Symbol and Number of Shares as well as DateTime of the transaction. When buy or sell is
  *			 initiated StockAccount checks if CompanyShares are available and accordingly update or
  *			 create an Object.
+ *			 2.Maintain the List of CompanyShares in a Linked List So new CompanyShares can be added
+ *			 or removed easily. Do not use any Collection Library to implement Linked List.
+ *			 3.Further maintain the Stock Symbol Purchased or Sold in a Stack implemented using
+ *			 Linked List to indicate transactions done.
+ *			 4.Further maintain DateTime of the transaction in a Queue implemented using Linked List
+ *			 to indicate when the transactions were done.
  *           
  * @author Dipendra Rana
- * @version 1.0
+ * @version 6.0
  * @since 16 September 2017          
  ***************************************************************************************************/
 
@@ -19,11 +25,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.Date;
 import java.util.LinkedList;
-=======
->>>>>>> 80813ef3db81e8debcc55be5b968f5d6e9e682b3
 import java.util.Scanner;
 
 import com.bridgelabz.utility.CompanyShares;
@@ -34,7 +37,7 @@ public class StockAccount {
 	
 	public static Scanner scanner=new Scanner(System.in);
 	
-	protected String path="C:\\Users\\DIPENDRA\\Documents\\<<accountName>>.txt";
+	protected String path="/home/bridgeit/Documents/<<accountName>>";
 	
 	protected String accountName;
 	
@@ -43,19 +46,14 @@ public class StockAccount {
 	protected int noOfShares;
 	
 	protected ArrayList<Integer> priceOfEachShares;
-<<<<<<< HEAD
 	
 	protected String stockSymbol;
 	
-	protected static LinkedList<CompanyShares> listOfStocks;
+	protected static LinkedList<CompanyShares> listOfStocks=new LinkedList<CompanyShares>();
 	
 	protected StackLinkedList<String> stack;
 	
 	protected QueueLinkedList<Date> queue;  
-=======
-		
-	protected String stockSymbol;
->>>>>>> 80813ef3db81e8debcc55be5b968f5d6e9e682b3
 	
 	protected Date stockSellDate,stockBuyDate;
 	
@@ -64,28 +62,24 @@ public class StockAccount {
 		stockName=null;
 		noOfShares=0;
 		priceOfEachShares=null;
-		listOfStocks=new LinkedList<CompanyShares>();
-		stack=new StackLinkedList<String>();
-		queue=new QueueLinkedList<Date>();
+		stack=null;
+		queue=null;
 	}
 	
 	public StockAccount(String fileName) throws FileNotFoundException {
-<<<<<<< HEAD
+		//listOfStocks=new LinkedList<CompanyShares>();
+		stack=new StackLinkedList<String>();
+		queue=new QueueLinkedList<Date>();
 		priceOfEachShares=new ArrayList<Integer>();
 		path=path.replaceAll("<<accountName>>", fileName);
 		Scanner read=new Scanner(new File(path));
 		int incriment=0;
 		String[] details = new String[2];
-=======
-		path=path.replaceAll("<<accountName>>", fileName);
-		Scanner read=new Scanner(new File(path));
->>>>>>> 80813ef3db81e8debcc55be5b968f5d6e9e682b3
 		while(read.hasNext()){
 			String element=read.next();
 			try{
 				priceOfEachShares.add(Integer.parseInt(element));
 			}catch(NumberFormatException e){
-<<<<<<< HEAD
 				details[incriment]=element;
 				incriment++;
 			}
@@ -104,80 +98,55 @@ public class StockAccount {
 	} 
 	
 	public void buy(int amount,String symbol,String fileName) throws IOException{
+		int count = 0;
 		for(int i=0;i<listOfStocks.size();i++) {
 			if(listOfStocks.get(i).getStockSymbol().equals(symbol)) {
 				if(!listOfStocks.get(i).checkForShares()) {
 					stockBuyDate=new Date();
-					System.out.println(stockBuyDate);
 					queue.enqueue(stockBuyDate);
 					stack.push(symbol);
-					listOfStocks.get(i).removeShares(amount, symbol);
-					priceOfEachShares.add(Integer.valueOf(amount));
-					System.out.println(priceOfEachShares);
-					save(fileName);
+					if(listOfStocks.get(i).removeShares(amount, symbol)) {
+						priceOfEachShares.add(Integer.valueOf(amount));
+						save(fileName);
+					}
 				}	
 				else
 					System.out.println("This company right now have no share");
-=======
-				stockName=element;
->>>>>>> 80813ef3db81e8debcc55be5b968f5d6e9e682b3
+				count=1;;
 			}
-			else
-				System.out.println("No Stock with this symbol is present ");
 		}
-<<<<<<< HEAD
-=======
-		read.close();
-	}
-	
-	public int valueOf(){
-		int sum=0;
-		for(int iteration=0;iteration<priceOfEachShares.size();iteration++) {
-			sum=sum+priceOfEachShares.get(iteration);
-		}
-		return sum;
-	} 
-	
-	public void buy(int amount,String symbol){
-		
-	}
-	
-	public int getNoOfShares(String path) throws FileNotFoundException{
-		Scanner newReader=new Scanner(new File(path));
-		int noOfWords=0;
-		while(newReader.hasNextLine()){
-			noOfWords++;
-			newReader.nextLine();
-		}
-		newReader.close();
-		return noOfWords-1;
->>>>>>> 80813ef3db81e8debcc55be5b968f5d6e9e682b3
+		if(count==0)
+			System.out.println("No Stock with this symbol is present ");
 	}
 	
 	public void sell(int amount,String symbol,String fileName) throws IOException {
+		int lookforCompany=0;
 		for(int i=0;i<listOfStocks.size();i++) {
 			if(listOfStocks.get(i).getStockSymbol().equals(symbol)) {
+				int count=0;
 				for(int iteration=0;iteration<priceOfEachShares.size();iteration++) {
 					if(priceOfEachShares.get(iteration)==amount) {
 						System.out.println("Do you want To sell the share "+(iteration+1)+" (yes/no):");
 						String choose=scanner.next();
 						if(choose.equals("yes")) {
+							listOfStocks.get(i).addShares(amount, symbol);
 							stockSellDate=new Date();
 							queue.enqueue(stockSellDate);
 							stack.push(symbol);
 							priceOfEachShares.remove(iteration);
 							save(fileName);
-						}	
+						}
+						count=1;
 					}
-					else
-						System.out.println("No such Stock is Present at the momment");
 				}
+				if(count==0)
+					System.out.println("No such Stock is Present at the momment");
+				lookforCompany=1;
 			}
-			else
-				System.out.println("No such Company with this Symbol");	
 		}
+		if(lookforCompany==0)
+			System.out.println("No such Company with this Symbol");	
 	}
-	
 	
 	public int getNoOfShares(String path) throws FileNotFoundException{
 		Scanner newReader=new Scanner(new File(path));
@@ -189,9 +158,7 @@ public class StockAccount {
 		newReader.close();
 		return noOfWords-1;
 	}
-		
-
-	
+			
 	public void save(String fileName) throws IOException {
 		path=path.replaceAll("<<accountName>>", accountName);
 		FileWriter write=new FileWriter(fileName);
@@ -202,7 +169,6 @@ public class StockAccount {
 		write.write("\n"+valueOf());
 		write.close();
 	}
-	
 	
 	public void printReport() {
 		System.out.println("Report");
@@ -218,9 +184,6 @@ public class StockAccount {
 		}
 	}
 		
-
-
-	
 	public void companyShares(String companyName,int noOfShares,String stockSymbol) throws IOException {
 		CompanyShares companyShares=new CompanyShares(companyName,noOfShares,stockSymbol);
 		companyShares.enterDetails();
@@ -230,15 +193,13 @@ public class StockAccount {
 		listOfStocks.add(companyShares);
 	}
 	
-	
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-<<<<<<< HEAD
 		int amount;
 		String symbol;
 		String choose;
+		StockAccount stock=new StockAccount();
 		do {
-			StockAccount stock=new StockAccount();
 			System.out.println("Choose");
 			System.out.println("1.Enter new Comapny Shares");
 			System.out.println("2.Read accounts and performs changes");
@@ -316,12 +277,6 @@ public class StockAccount {
 			choose=scanner.next();
 			choose=choose.toLowerCase();
 		}while(choose.equals("yes"));
-=======
-		String fileName=scanner.nextLine();
-		StockAccount stock=new StockAccount(fileName);
-		stock.valueOf();
-		//stock.createAccount();
->>>>>>> 80813ef3db81e8debcc55be5b968f5d6e9e682b3
 		
 
 	}

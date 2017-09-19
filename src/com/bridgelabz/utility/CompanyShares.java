@@ -1,3 +1,11 @@
+/***************************************************************************************************
+ * purpose : To create new company shares
+ *           
+ * @author Dipendra Rana
+ * @version 1.0
+ * @since 19 September 2017          
+ ***************************************************************************************************/
+
 package com.bridgelabz.utility;
 
 import java.io.FileWriter;
@@ -50,26 +58,36 @@ public class CompanyShares {
 		return priceOfEachShares;
 	}
 	
-	public void removeShares(int amount,String symbol) {
-		System.out.println("Enter the share Number:");
-		int shareNumber=scanner.nextInt();
+	public boolean removeShares(int amount,String symbol) {
+		int count=0;
 		if(stockSymbol.equals(symbol)) {
-			if(priceOfEachShares.get(shareNumber)==amount) {
-				priceOfEachShares.remove(shareNumber);
+			for(int i=0;i<priceOfEachShares.size();i++) {
+				if(priceOfEachShares.get(i)==amount) {
+					System.out.println("Did you wanted to buy share "+(i+1)+" ?");
+					String choose=scanner.next();
+					if(choose.equals("yes"))
+						priceOfEachShares.remove(i);
+					count=1;
+				}
+			}
+			if(count==0) {
+				System.out.println("Wrong Amount");
+				return false;
 			}
 			else
-				System.out.println("Wrong Amount");
+				return true;
 		}
 		else
-			System.out.println("You trying To Look into Wrong Stock");		
+			return false;
 	}
 	
-	public void addShares(int amount,String symbol) {
+	public boolean addShares(int amount,String symbol) {
 		if(stockSymbol.equals(symbol)) {
 			priceOfEachShares.add(amount);
+			return true;
 		}
-		else
-			System.out.println("You trying To Look into Wrong Stock");
+		else 
+			return false;
 	}
 	
 	public void printShares() {
