@@ -25,7 +25,7 @@ public class CompanyShares {
 	
 	public static Scanner scanner=new Scanner(System.in);
 	
-	protected String path="/home/bridgeit/Documents/<<CompanyName>>";
+	protected String path="E:\\myWorkSpace\\<<CompanyName>>";
 	
 	public CompanyShares(String companyName,int noOfShares,String stockSymbol) {
 		this.companyName=companyName;
