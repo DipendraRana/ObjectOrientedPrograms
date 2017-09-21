@@ -1,3 +1,11 @@
+/*********************************************************************
+ * purpose : Doctors Entry Class 
+ *           
+ * @author Dipendra Rana
+ * @version 1.0
+ * @since 20 September 2017          
+ *********************************************************************/
+
 package com.bridgelabz.programs;
 
 import org.json.simple.JSONObject;

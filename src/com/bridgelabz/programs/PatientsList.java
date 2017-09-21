@@ -1,3 +1,11 @@
+/*********************************************************************
+ * purpose : Maintains Patients List 
+ *           
+ * @author Dipendra Rana
+ * @version 1.0
+ * @since 20 September 2017          
+ *********************************************************************/
+
 package com.bridgelabz.programs;
 
 import java.util.Scanner;
@@ -21,11 +29,11 @@ public class PatientsList {
 	public JSONObject addPatientsToList(){
 		System.out.println("Enter the name of Patient:");
 		String name=scanner.nextLine();
-		System.out.println("Enter the Dr."+name+" ID:");
+		System.out.println("Enter the "+name+" ID:");
 		int id=scanner.nextInt();
 		System.out.println("Enter the "+name+" Mobile Numner:");
-		int mobileNo=scanner.nextInt();
-		System.out.println("Enter the Dr."+name+" Age:");
+		long mobileNo=scanner.nextLong();
+		System.out.println("Enter the "+name+" Age:");
 		int age=scanner.nextInt();
 		PatientsEntry patientsEntry=new PatientsEntry(name,id,mobileNo,age);
 		JSONObject patient=patientsEntry.getJsonObject();

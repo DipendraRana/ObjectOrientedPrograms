@@ -1,3 +1,11 @@
+/*********************************************************************
+ * purpose : Maintains Doctors list
+ *           
+ * @author Dipendra Rana
+ * @version 1.0
+ * @since 20 September 2017          
+ *********************************************************************/
+
 package com.bridgelabz.programs;
 
 import java.util.Scanner;
@@ -23,6 +31,7 @@ public class DoctorsList {
 		String name=scanner.nextLine();
 		System.out.println("Enter the Dr."+name+" ID:");
 		int id=scanner.nextInt();
+		scanner.nextLine();
 		System.out.println("Enter the Dr."+name+" Specialization:");
 		String specialization=scanner.nextLine();
 		System.out.println("Enter the Dr."+name+" Shift:");

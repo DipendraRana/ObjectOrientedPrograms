@@ -37,7 +37,7 @@ public class StockAccount {
 	
 	public static Scanner scanner=new Scanner(System.in);
 	
-	protected String path="E:\\myWorkSpace\\<<accountName>>";
+	protected String path="/home/bridgeit/Documents/<<accountName>>";
 	
 	protected String accountName;
 	

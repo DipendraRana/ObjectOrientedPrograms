@@ -160,7 +160,8 @@ public class Utility {
 	public static double inventoryItemValueCalculation(JSONObject inventory) {
 		long valueOfItem = 0;
 		System.out.println("Enter the Type Of Item:");
-		String itemType=scanner.nextLine();
+		String itemType=scanner.next();
+		scanner.nextLine();
 		System.out.println("Which item's Name You want");
 		String itemName=scanner.nextLine();
 		try {
