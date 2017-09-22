@@ -34,7 +34,7 @@ public class DoctorsList {
 		scanner.nextLine();
 		System.out.println("Enter the Dr."+name+" Specialization:");
 		String specialization=scanner.nextLine();
-		System.out.println("Enter the Dr."+name+" Shift:");
+		System.out.println("Enter the Dr."+name+" Shift(hh AM/PM - hh AM/PM):");
 		String availability=scanner.nextLine();
 		DoctorsEntry doctorEntry=new DoctorsEntry(name,id,specialization,availability);
 		JSONObject doctor=doctorEntry.getJsonObject();

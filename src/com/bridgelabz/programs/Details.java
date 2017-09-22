@@ -44,11 +44,11 @@ public class Details {
 		do{
 			doctorsList.enterDoctorsToList();
 			System.out.println("Do you want to add another Doctor(yes/no):");
-			decide=scanner.next();
+			decide=scanner.nextLine();
 		}while(decide.equals("yes"));
 	}
 	
-	public JSONObject  enterThePatientsDetail() throws IOException{
+	public JSONObject enterThePatientsDetail() throws IOException{
 		JSONObject temporaryObject=patientsList.addPatientsToList();
 		return temporaryObject;
 	}
@@ -76,16 +76,29 @@ public class Details {
 	public void appointent() throws IOException{
 		int count=0;
 		System.out.println("With whom the patient wants the appointment:");
-		scanner.nextLine();
 		String name=scanner.nextLine();
 		System.out.println("At What time patient wants the appointment:");
 		String time=scanner.nextLine();
 		for(int thisDoctor=0;thisDoctor<appointments.size();thisDoctor++){
-			if(appointments.get(thisDoctor).get(0).containsValue(name)&&appointments.get(thisDoctor).size()<=6&&appointments.get(thisDoctor).get(0).containsValue(time)){
-				System.out.println("Appoint can be Fixed,so..");
-				appointments.get(0).add(enterThePatientsDetail());
-				System.out.println("Appointment sucessfull");
-				count=1;
+			if(appointments.get(thisDoctor).get(0).containsValue(name)&&appointments.get(thisDoctor).size()<=6) {
+				String doctorsTime=(String) appointments.get(thisDoctor).get(0).get("Shift");
+				String[] doctorsTimeCheck=doctorsTime.split("\\s+");
+				String[] patientsTimeCheck=time.split("\\s+");
+				int startShiftTimeOfDoctors=Integer.parseInt(doctorsTimeCheck[0]);
+				int endShiftTimeOfDoctors=Integer.parseInt(doctorsTimeCheck[3]);
+				int patientsRequestTime=Integer.parseInt(patientsTimeCheck[0]);
+				if((doctorsTimeCheck[1].equals("PM")&&startShiftTimeOfDoctors!=12)||(doctorsTimeCheck[1].equals("AM")&&startShiftTimeOfDoctors==12))
+					startShiftTimeOfDoctors=Integer.parseInt(doctorsTimeCheck[0])+12;
+				if((doctorsTimeCheck[4].equals("PM")&&endShiftTimeOfDoctors!=12)||(doctorsTimeCheck[4].equals("AM")&&endShiftTimeOfDoctors==12))
+					endShiftTimeOfDoctors=Integer.parseInt(doctorsTimeCheck[3])+12;
+				if((patientsTimeCheck[1].equals("PM")&&patientsRequestTime!=12)||(patientsTimeCheck[1].equals("AM")&&patientsRequestTime==12))
+					patientsRequestTime=Integer.parseInt(patientsTimeCheck[0])+12;
+				if(patientsRequestTime>=startShiftTimeOfDoctors&&patientsRequestTime<=endShiftTimeOfDoctors) {
+					System.out.println("Appoint can be Fixed,so..");
+					appointments.get(0).add(enterThePatientsDetail());
+					System.out.println("Appointment sucessfull");
+					count=1;
+				}
 			}
 		}
 		if(count==0)

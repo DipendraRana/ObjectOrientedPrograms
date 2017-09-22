@@ -12,7 +12,7 @@
  * 			 Specialization is popular in the Clinique as well as which Doctor is popular
  *           
  * @author Dipendra Rana
- * @version 1.0
+ * @version 2.0
  * @since 20 September 2017          
  **************************************************************************************/
 
@@ -38,16 +38,14 @@ public class CliniqueManagmentProgram {
 			System.out.println("2.Search Patients");
 			System.out.println("3.Take Appointment");
 			System.out.println("4.Look At Doctors Patients");
-			int choice=scanner.nextInt();
-			scanner.nextLine();
+			int choice=Integer.parseInt(scanner.nextLine());
 			switch(choice){
 			case 1:	System.out.println("Search Doctors by:"
 					+"\n1.Name"
 					+"\n2.ID"
 					+"\n3.Specializtion"
 					+"\n4.Availability");
-					choice=scanner.nextInt();
-					scanner.nextLine();
+					choice=Integer.parseInt(scanner.nextLine());
 					switch(choice){
 					case 1: System.out.println("Enter The Name of Doctor:");
 							String name=scanner.nextLine();
@@ -57,14 +55,14 @@ public class CliniqueManagmentProgram {
 								System.out.println("No Doctor with this name is present");
 							break;
 					case 2:	System.out.println("Enter The ID of the Doctor:");
-							Integer id=scanner.nextInt();
+							Integer id=Integer.parseInt(scanner.nextLine());
 							if(details.searchDoctors(id)!=0)
 								System.out.println("Found The Doctor with this ID "+id);
 							else
 								System.out.println("No Doctor with this ID "+id+" is present");
 							break;
 					case 3: System.out.println("Enter The Specializtion of the Doctor:");
-							String specializtion=scanner.next();
+							String specializtion=scanner.nextLine();
 							if(details.searchDoctors(specializtion)!=0)
 								System.out.println("Found The Doctor with this Specializtion "+specializtion);
 							else
@@ -83,8 +81,7 @@ public class CliniqueManagmentProgram {
 					+"\n1.Name"
 					+"\n2.ID"
 					+"\n3.Mobile No");
-					choice=scanner.nextInt();
-					scanner.nextLine();
+					choice=Integer.parseInt(scanner.nextLine());
 					switch(choice){
 					case 1: System.out.println("Enter The Name of Paitent:");
 							String name=scanner.nextLine();
@@ -94,14 +91,14 @@ public class CliniqueManagmentProgram {
 								System.out.println("No paitents with this name is present");
 							break;
 					case 2:	System.out.println("Enter The ID of the paitent:");
-							int id=scanner.nextInt();
+							int id=Integer.parseInt(scanner.nextLine());
 							if(details.searchPatient(id)!=0)
 								System.out.println("Found The paitent with this ID "+id);
 							else
 								System.out.println("No paitent with this ID "+id+" is present");
 							break;
 					case 3: System.out.println("Enter The Mobile No. of the Patient:");
-							int mobileNo=scanner.nextInt();
+							long mobileNo=Integer.parseInt(scanner.nextLine());
 							if(details.searchPatient(mobileNo)!=0)
 								System.out.println("Found The Patient with this Mobile No. "+mobileNo);
 							else
@@ -117,7 +114,7 @@ public class CliniqueManagmentProgram {
 					break;
 			}
 			System.out.println("Do you want to go again(yes/no):");
-			choose=scanner.next();
+			choose=scanner.nextLine();
 		}while(choose.equals("yes"));
 	}
 
